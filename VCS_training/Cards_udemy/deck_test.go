@@ -17,3 +17,8 @@ func TestNewDeck(t *testing.T) {
 		t.Errorf("Expected ace of Spades, but got %v", d[len(d)-1])
 	}
 }
+
+func TestSaveToDeckAndNewDeckTestFromFile(t *testing.T) {
+
+}
+func main() {}
