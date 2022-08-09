@@ -74,13 +74,13 @@ func newDeckFromFile(filename string) deck {
 		os.Exit(1) //log out and quit the program
 	}
 
-	ss := string.Split(string(bs), ",")
-	deck(ss)
+	ss := strings.Split(string(bs), ",")
+	return deck(ss)
 
 }
 func main() {
 	//def new deck of cards
-	cards := newDeck()
+	//cards := newDeck()
 	// //print out all the card in deck
 	// cards.print()
 	// //print out cards 0 and 1
@@ -95,8 +95,10 @@ func main() {
 	// remaindingCards.print()
 	// greeting := "Hi there!"
 	// fmt.Println([]byte(greeting))
-	fmt.Println(cards.toString())
-	cards.savetoFile("my_cards")
+	// fmt.Println(cards.toString())
+	// cards.savetoFile("my_cards")
+	cards := newDeckFromFile("my_cards")
+	cards.print()
 }
 
 //
