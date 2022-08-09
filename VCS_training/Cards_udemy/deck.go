@@ -3,8 +3,10 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"math/rand"
 	"os"
 	"strings"
+	"time"
 )
 
 // ioutil package implemaent some I/O utility fucntions
@@ -78,9 +80,19 @@ func newDeckFromFile(filename string) deck {
 	return deck(ss)
 
 }
+
+func (d deck) shuffle() {
+	source := rand.NewSource(time.Now().UnixNano())
+	r := rand.New(source)
+	for i := range d {
+		newPosition := r.Intn(len(d) - 1)
+
+		d[i], d[newPosition] = d[newPosition], d[i]
+	}
+}
 func main() {
 	//def new deck of cards
-	//cards := newDeck()
+	cards := newDeck()
 	// //print out all the card in deck
 	// cards.print()
 	// //print out cards 0 and 1
@@ -97,7 +109,8 @@ func main() {
 	// fmt.Println([]byte(greeting))
 	// fmt.Println(cards.toString())
 	// cards.savetoFile("my_cards")
-	cards := newDeckFromFile("my_cards")
+	// cards := newDeckFromFile("my_cards")
+	cards.shuffle()
 	cards.print()
 }
 
