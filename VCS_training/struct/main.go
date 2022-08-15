@@ -49,9 +49,12 @@ func main() {
 		},
 	}
 
-	jimPointer := &jim
+	//1st way jimPointer := &jim
 	// take the address of jim
-	jimPointer.updateName("Hie")
+	//1st way jimPointer.updateName("Hie")
+
+	//2nd way
+	jim.updateName("Hieu")
 	jim.print()
 }
 
