@@ -14,6 +14,8 @@ type person struct {
 
 func (pointerToPerson *person) updateName(newFirstName string) {
 	(*pointerToPerson).firstName = newFirstName
+	//*pointerToPerson is an operator- it means we want to manipulate the value the pointer is referencing
+	//*person is the type description, it means we are working with a pointer to a person
 }
 
 //  &variable give me the memory address of the value this variable is pointing at
@@ -48,9 +50,10 @@ func main() {
 	}
 
 	jimPointer := &jim
-
+	// take the address of jim
 	jimPointer.updateName("Hie")
 	jim.print()
 }
 
-//45
+// turn address into value of that address = *address
+// turn value into the address of that value = &value
