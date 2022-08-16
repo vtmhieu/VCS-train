@@ -31,3 +31,9 @@ func (eb englishBot) getGreeting() string {
 func (sb spanishBot) getGreeting() string {
 	return "Hola!"
 }
+
+//concrete type vs interface type
+
+//concrete type includes map, struct, int, string, englishBot
+//can create a value out of directly and access and change
+//interface type inlcude bot, cannot create directly
