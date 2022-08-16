@@ -60,3 +60,9 @@ func main() {
 
 // turn address into value of that address = *address
 // turn value into the address of that value = &value
+
+// value types vs reference types
+// value types (int float string bool structs) use pointers to change value in function
+// reference types(slices maps channels pointers functions) dont need to worry about this pointer
+
+// When we create a slice, go will automatically create 2 things, an array and a structure that records the length of the slice, the capacity of the slice, and the reference to the undelying array
