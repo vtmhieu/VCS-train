@@ -1,0 +1,92 @@
+open API 
+
+open api:3.0.2
+
+//info object, has properties + contact object + license object
+// in info object there can be more objects (title, description, termOfService, contact, license, version)
+info:
+    version:"1.0" (required)
+    title:"xxx" (required)
+    discription:daslf
+    contact:
+        name:
+        url:
+        email:
+    license:
+        name:
+        url: http://,,,,.html
+
+
+//server object 
+servers:
+    url: (required) http://dex.com
+    description:(obtional) Development server sdf
+// to add new server
+    url: https://sakd
+    description: adkjfakas
+// and redo it
+
+// path object -> is used to define an API endpoint. The path is appended to the URL of the server object
+path: 
+    /v1/ customers: (the /v1/ is version 1)
+        get:
+            response:(required)
+                '200':
+                    description: List of customers
+                    ***1(continued below)
+        put:
+            response:
+                '200':
+                    description: 
+
+
+**OPEN API SCHEMA**
+
+1. JSON SCHEMA:
+    1st one is the object, which is a mapping type in JSON. they map keys to values.the keys must alway be strings. Each of these pair is conventionally referred to as a "property"
+    //ex:
+    {
+        "key" : "value"
+        "another_key" : "another_value"
+    }
+    //real
+    {
+        "sun" : 1,21312e212,
+        "jupiter" : 1,21312u2342,
+        ...
+    }
+
+    2nd one is the properties
+    is the properties of each key-value pair
+    //ex:
+    {
+        "type":"object",
+        "properties":(
+            "number: ("type":"number"),
+            "street_name":("type":"string"),
+            "street_type":("type":"string",
+                            "enum":["Street","Avenue","City"]
+                            )
+        )
+    }
+
+    3rd one is array / tuples
+
+**OPEN API DATATYPES**
+
+int32, int64, float, double, string in byte/ binary,...
+more properties can be searched on web
+
+***1 
+                    content:
+                        application/json:
+                        schema:
+                            type: array
+                            minItems:1
+                            maxItems: 100
+                            items:
+                                type: string
+                                description: Customer Name 
+                                minLength: 2
+                                maxLength: 100
+//23
