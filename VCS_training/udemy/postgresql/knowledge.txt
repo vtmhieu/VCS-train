@@ -1,0 +1,51 @@
+//HOW TO CREATE NEW TABLE
+
+CREATE TABLE movies(
+    movies_id SERIAL PRIMARY KEY,
+    movies_name VARCHAR(255) NOT NULL,
+    movies_time TIME NOT NULL
+);
+
+
+//CREATE A TABLE WITH FOREIGN KEY
+
+CREATE TABLE tickets(
+    tick_id SERIAL PRIMARY KEY,
+    movies_id INT REFERENCES movies(movies_id),
+    movies_time INT REFERENCES movies(movies_time)
+);
+
+
+//NUMERIC ? used for the moonetary or amounts storage where precision is required
+NUMERIC(precision, scale) which, precision is the total number of digits
+ scale = num of digits in tem of fractions
+
+// CREATE A JUNCTION TABLE
+
+CREATE TABLE customer(
+    movies_id INT REFERENCES movies(movies_id),
+    tick_id INT REFERENCES movies(tick_id),
+    PRIMARY KEY ( movies_id, tick_id)
+);
+
+
+// ADD NEW COLUMN
+
+ALTER TABLE movies
+ADD COLUMN type VARCHAR(50) NOT NULL;
+
+// CHANGE THE COLUMN DATA TYPE
+
+ALTER TABLE movies
+ALTER COLUMN type TYPE CHAR(3);
+
+
+// DELETE DATA FROM TABLE
+
+DROP TABLE movies;
+
+
+//INSERT DATA INTO TABLE
+
+INSERT INTO movies (movies_id, movies_name, movies_time)
+VALUES ('1','Gone',)

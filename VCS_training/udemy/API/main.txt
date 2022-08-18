@@ -66,6 +66,7 @@ path:
             "street_name":("type":"string"),
             "street_type":("type":"string",
                             "enum":["Street","Avenue","City"]
+                            // enum = the domain name of the street.
                             )
         )
     }
@@ -89,4 +90,7 @@ more properties can be searched on web
                                 description: Customer Name 
                                 minLength: 2
                                 maxLength: 100
-//23
+
+
+
+***OpenAPI components***
