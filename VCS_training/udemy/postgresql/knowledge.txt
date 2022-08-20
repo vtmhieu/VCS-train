@@ -159,3 +159,65 @@ SELECT 'string1' || ' ' || 'string2' AS new_string
 
 = SELECT CONCAT(movies_id,' ', movies_name) AS new_name FROM movies;
 = SELECT CONCAT_WS(' ', movies_id, movies_name, movies_time) AS new_name FROM movies;
+
+***AGGREGATE FUNCTIONS***
+
+//COUNT
+
+SELECT COUNT(movies_name) FROM movies; (print the total number of notnull values)
+
+//SUM
+
+SELECT SUM(movies_id) FROM movies; 
+-> return 1 value; cannot use sum for VARCHAR  
+
+//MAX MIN   
+
+SELECT MAX(movies_id) FROM movies;
+
+SELECT MIN(movies_id) FROM movies;
+
+SELECT MIN(movies_time) FROM movies
+WHERE movies_type =' ';
+
+can be use for both number of text (VARCHAR) 
+
+// AVERAGE
+
+SELECT AVG(movies_length) FROM movies
+WHERE age_certificate = '18';
+
+//GROUPING DATA
+
+SELECT movies_length, COUNT(movies_length) FROM movies
+GROUP BY movies_length;
+
+SELECT movies_length, AVG(movies_length) FROM movies; -> ERROR since you have to create a group by clause which contains all the columns that you have an aggregated over
+
+SELECT movies_length, age_certificate, COUNT(movies_length) FROM movies
+GROUP BY movies_length, age_certificate;
+
+// HAVING clauses
+
+SELECT movies_length, COUNT(movies_lang) FROM movies
+GROUP BY movies_lang
+HAVING COUNT(movies_lang) >1;
+ 
+-> filterd out all the count =1
+
+SELECT movies_length, COUNT(movies_lang) FROM movies
+WHERE COUNT(movies_lang) >1
+GROUP BY movies_lang;
+
+-> can't use this because WHERE clauses acts on actual values in column, not on aggregated values from a column.
+
+//MATHEMATICAL FUNCTIONS
+
+addition +
+subtraction -
+division /
+multiplication *
+modulus %
+
+SELECT movies_id, (movies_length + movies_id) AS time FROM movies;
+
