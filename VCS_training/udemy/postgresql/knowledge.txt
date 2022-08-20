@@ -221,3 +221,26 @@ modulus %
 
 SELECT movies_id, (movies_length + movies_id) AS time FROM movies;
 
+
+
+***DATABASE RELATIONSHIP***
+
+//ONE TO ONE RELATIONSHIP
+
+primary key values of table 1 can appear a maximum of once in the foreign key column in table 2.
+
+//ONE TO MANY RELATIONSHIP
+
+primary key values of table 1 can appear multiple times in the foreign key column.
+ex: 1 director can have many films
+
+//MANY TO MANY RELATIONSHIP
+
+where tow tables can have many instances of each other then we can't relate these two tables just using primary keys and foreign keys
+ex: 2 authors writes many books
+
+we need to use third table, which is known as a junction table 
+ex: 2 tables movies and actors, both dont contain foregin key include other id 
+use third table movies_actors to save the data of movie_id and actor_id
+
+each table has one to many relationship with junction table.
