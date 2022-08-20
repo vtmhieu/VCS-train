@@ -3,7 +3,7 @@
 CREATE TABLE movies(
     movies_id SERIAL PRIMARY KEY,
     movies_name VARCHAR(255) NOT NULL,
-    movies_time TIME NOT NULL
+    movies_time TIMESTAMP NOT NULL
 );
 
 
@@ -48,4 +48,106 @@ DROP TABLE movies;
 //INSERT DATA INTO TABLE
 
 INSERT INTO movies (movies_id, movies_name, movies_time)
-VALUES ('1','Gone',)
+VALUES ('1','Gone','12:30:00') ,('2','Bye','13:40:00');
+
+//UPDATING DATA 
+
+UPDATE movies 
+SET movies_id = '3'
+WHERE movies_id = '1';
+
+//DELETE DATA FROM TABLE   
+
+DELETE FROM movies 
+WHERE movies_id = '1';
+
+//SELECT QUERIES 
+
+SELECT * FROM movies; = select all movies 
+
+SELECT movies_id FROM movies;
+
+SELECT movies_id, movies_name FROM movies;
+
+//WHERE clauses 
+
+SELECT * FROM movies  
+WHERE movies_name = 'asdfd'; 
+
+SELECT * FROM movies  
+WHERE movies_name = 'asdfd'
+AND movies_date = '12:30:00';
+
+SELECT * FROM movies  
+WHERE movies_name = 'asdfd'
+OR movies_date = '12:30:00';
+
+//LOGICAL OPERATORS 
+SELECT * FROM movies
+WHERE movies_id = > < => =< '  ';
+
+//IN , NOT IN 
+
+ SELECT * FROM movies
+ WHERE movies_id IN ('1','2'); = print out all informations which has id of either 1 or 2
+
+
+ SELECT * FROM movies
+ WHERE movies_id NOT IN ('1','2'); = print out all informations which doesnt have id of either 1 or 2
+
+
+ //LIKE
+ SELECT * FROM movies
+ WHERE movies_name LIKE 'P%'; = start with P and follow by many
+                        'P_'; = start with P and follow by only one character
+                        '%P%'
+                        '%P'
+                        '_P'
+                        '_P_'
+
+//BETWEEN
+
+SELECT ... FROM... 
+WHERE... BETWEEN... AND ...;
+
+//ORDER BY 
+
+SELECT...FROM... 
+ORDER BY movies_name; from low to high
+
+//LIMIT
+is to limit the output 
+
+SELECT * FROM movies 
+ORDER BY movies_id
+LIMIT 5 OFFSET 3;
+
+->OFFSET = skip 3 first row
+
+// FETCH
+
+SELECT movies_id, movies_name FROM movies 
+(OFFSET ... ROWS) -> skip ... rows first 
+FETCH FIRST 10 ROW ONLY;
+
+//DISTINCT
+
+SELECT DISTINCT ... FROM... 
+ODER BY...;
+
+-> DISTINCT is print out the different name, not same name
+
+// NULL
+
+SELECT * FROM movies
+WHERE movies_name IS NULL; -> print out all the row has null movies_name
+
+SELECT * FROM movies 
+WHERE movies_name IS NOT NULL
+ORDER BY movies_name DESC;
+
+// SETTING A COLUMN NAME ALIAS 
+
+SELECT movies_name AS name FROM movies 
+WHERE movies_name LIKE 'A%' 
+ORDER BY name; 
