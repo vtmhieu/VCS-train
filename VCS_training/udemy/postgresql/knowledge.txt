@@ -151,3 +151,11 @@ ORDER BY movies_name DESC;
 SELECT movies_name AS name FROM movies 
 WHERE movies_name LIKE 'A%' 
 ORDER BY name; 
+
+//CONCATENATE 
+
+SELECT 'string1' || ' ' || 'string2' AS new_string
+-> print out column with name 'new_string' and data of 'string1 string2'
+
+= SELECT CONCAT(movies_id,' ', movies_name) AS new_name FROM movies;
+= SELECT CONCAT_WS(' ', movies_id, movies_name, movies_time) AS new_name FROM movies;
