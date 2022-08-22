@@ -244,3 +244,211 @@ ex: 2 tables movies and actors, both dont contain foregin key include other id
 use third table movies_actors to save the data of movie_id and actor_id
 
 each table has one to many relationship with junction table.
+
+
+***JOINING TABLE*** 
+
+jooin queries allow us to select data from multiple tables.
+There needs to be a related column of data berween the tables.
+These columns are usuallu Primary Key and Foreign Key colums.
+
+Kinds of joins: Inner Joins, Left Joins, Right Joins, Full Joins.
+
+// INNER JOINS 
+ Will only return rows f data with matching values in both tables.
+
+ ex: table 1
+ ID     column
+ 1      LA 
+ 2      LB
+ 3      LC 
+ 4      LB
+ 5      LE
+table 2 ... -> print out only data of both tables which have same ID .
+
+
+ex1: we have 2 tables movies with directors
+
+SELECT directors.director_id, directors.first_name, directors.last_name, movies.movie_name 
+FROM directors
+INNER JOIN movies ON directors.director_id = movies.director_id;
+
+
+Ex2:
+using USING not ON only when two table have the same name 
+
+SELECT mo.movie_name, mr.domestic_takings FROM movies mo 
+JOIN movie_revenues mr USING (movie_id);
+
+//LEFT JOIN 
+Will return all the rows if data in the left table(table 1) and only matching rows of data in the right table(table2)
+
+
+ex1:
+SELECT directors.director_id, directors.first_name, directors.last_name, movies.movie_name 
+FROM directors
+LEFT JOIN movies ON directors.director_id = movies.director_id;
+
+
+
+//RIGHT JOIN
+Will return all the rows of data in the right table( table 2) and only matching rows of data in the laft table(table1)
+
+
+ex: 
+SELECT directors.director_id, directors.first_name, directors.last_name, movies.movie_name 
+FROM directors
+RIGHT JOIN movies ON directors.director_id = movies.director_id;
+
+
+//FULL JOIN
+Will only return all rows of data in both tables .
+
+ex: 
+SELECT directors.director_id, directors.first_name, directors.last_name, movies.movie_name 
+FROM directors
+FULL JOIN movies ON directors.director_id = movies.director_id;
+
+
+//JOINING MORE THAN TWO TABLES 
+
+SELECT t1.col, t2.col, t3.col FROM table1 t1
+JOIN table2 t2 ON t1.col = t2.col
+JOIN table3 t3 ON t3.col = t2.col;
+
+ex: 
+SELECT d.first_name, d.last_name, mo.movie_name, mr.international_takings, mr.domestic_takings
+FROM directors d 
+JOIN moveis mo ON d.director_id = mo.director_id
+JOIN movie_revenues mr ON mr.movie_id = mo.movie_id;
+
+
+//UNION
+
+SELECT first_name, last_name FROM directors
+WHERE nationality = 'American'
+UNION 
+SELECT first_name, last_name FROM actors
+WHERE gender = 'F';
+
+//UNION ALL 
+
+//INTERSECT 
+
+SELECT first_name FROM directors
+INTERSECT
+SELECT first_name FROM actors;
+
+
+//EXCEPT
+
+SELECT first_name FROM directors
+EXCEPT
+SELECT first_name FROM actors;
+
+
+***SUBQUERIES***
+
+Subqueries can be nested inside a select, insert, update or delete query.
+Can be used after FROM or WHERE 
+
+There are two types of subquery: Uncorrelated and Correlated Subqueries.
+
+**Uncorrelated Subqueries: The inner query could e excuted independently form the outer query.
+
+ex1:
+SELECT movie_name, movie_length FROM movies 
+WHERE movie_length >
+(SELECT AV(movie_length) FROM movies);
+
+ex2:
+SELECT first_name, last_name, date_of_birth FROM directors 
+WHERE date_of_birth >
+(SELECT date_of_birth FROM actors
+WHERE first_name ='Tom'
+AND last_name = 'Cruise');
+
+
+ex3:
+SELECT mo.movie_id, mo.movie_name, d.first_name, d.last_name FROM movies mo 
+JOIN directors d ON mo.director_id = d.director_id
+WHERE mo.movie_id IN 
+(SELECT movie_id FROM movie_revenues 
+WHERE international_takings > domestic_takings);
+
+
+
+**Correlated Subqueries: the Inner query dreferences a table form the outer query. SO the inner query cant be executed independently from the outer query.
+
+SELECT d1.first_name, d1.last_name, d1.date_of_birth 
+FROM directors d1 
+WHERE d1.date_of_birth =
+(SELECT MIN(date_of_birth) FROM directors d2
+WHERE d2.nationality = d1.nationality);
+
+if there is only 
+SELECT MIN(date_of_birth) FROM directors d2
+WHERE d2.nationality = d1.nationality
+then it cant be compiled since there is no entry for table 1. (no FROM)
+
+
+***STRING FUNCTION***
+
+//CLONING A DATABASE(COPY)
+1. create a new database as usual
+2. go to Definition, choose the template of which database you want to copy 
+
+// UPPER AND LOWER FUNCTION
+
+SELECT first_name, UPPER(last_name) AS last_name FROM actors;
+
+SELECT first_name, LOWER(last_name) AS last_name FROM actors;
+
+//INITCAP STRING FUNCTION 
+
+SELECT INITCAP(movie_name) FROM movies;
+
+auto write -> Auto Write 
+
+//LEFT AND RIGHT FUNCTION 
+
+SELECT LEFT('string',4);
+-> stri
+-4 -> st 
+-5 -> s
+SELECT RIGHT('example',3);
+-> ple
+-3->mple
+2-> le 
+
+
+//REVERSE FUNCTION 
+SELECT REVERSE('reverse');
+->esrever
+
+//SUBSTRING FUNCTION 
+
+SELECT SUBSTRING('long string',2,6);
+-> ong st 
+
+//REPLACE FUNCTION 
+
+SELECT REPLACE('a cat plays with another cat', 'cat', 'dog');
+-> a dog plays with another dog
+
+//SPLIT_PART FUNCTION 
+
+SELECT SPLIT_PART('first_name.last_name@gmail.com','@',1);
+1-> part after split 
+-> first_name.last_name 
+2-> gmail.com 
+
+
+//USING CASTING TO APPLY STRING FUNCTIONS TO NON STRING DATA TYPES 
+
+
+SELECT date_of_birth::TEXT FROM directors;
+SELECT SPLIT_PART(date_of_birth::TEXT, '_',1) FROM directors;
+
+-> 1965-04-01 -> 1965
+
