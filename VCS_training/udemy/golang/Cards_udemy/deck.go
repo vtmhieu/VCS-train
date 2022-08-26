@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-// ioutil package implemaent some I/O utility fucntions
+// ioutil package implement some I/O utility fucntions
 // create a new type of 'deck'
 // which is a slice of strings
 // fucntions WriteFile writes data to a file named by filename.
