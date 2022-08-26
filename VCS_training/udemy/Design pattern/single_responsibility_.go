@@ -36,8 +36,9 @@ func (j *Journal) removeEntries(text string) int {
 
 //separation of concerns
 
-func (j *Journal) Save(filename string) {
-	strings := ioutil.WriteFile(filename, []byte(j.String()), 0644)
+func (j *Journal) Save(filename string) error {
+	return ioutil.WriteFile(filename, []byte(j.String()), 0644)
+
 }
 
 func (j *Journal) Load(filename string) {
