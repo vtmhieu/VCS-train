@@ -3,12 +3,16 @@ package main
 import "fmt"
 
 type customer struct {
-	name        string
-	email       string
-	sdt         int64
-	code        int64
-	type_room   string
-	description string
+	name        string `json:"name"`
+	email       string `json:"email"`
+	sdt         int64  `json:"sdt"`
+	code        int64  `json:"code"`
+	type_room   string `json:"type_room"`
+	description string `json:"description"`
+}
+
+type customers struct {
+	customers []customer `json:"customers"`
 }
 
 type room struct {
@@ -17,9 +21,7 @@ type room struct {
 	price_room int64
 }
 
-type customers []customer
-
-func getInfomation() customer {
+func get_cus_Infomation() customer {
 	var cus customer
 
 	fmt.Println("Please fill in this form")
@@ -37,7 +39,7 @@ func getInfomation() customer {
 	return cus
 }
 
-func (c customer) PrintInfomation() {
+func (c customer) Print_cus_Infomation() {
 	fmt.Println("Name: ", c.name)
 	fmt.Println(c.name, "'s email: ", c.email)
 	fmt.Println(c.name, "'s phone number: ", c.sdt)
@@ -45,12 +47,37 @@ func (c customer) PrintInfomation() {
 	fmt.Println("Description: ", c.description)
 }
 
+func SavetoFile() {
+
+}
+
 func main() {
 	Customers := []customer{}
 
-	Customers = append(Customers, getInfomation())
-	for _, c := range Customers {
-		fmt.Println("This is the informations of customer ", c.name)
-		c.PrintInfomation()
+	var n int
+	fmt.Println("----------------------------------------")
+	fmt.Println("MENU")
+	fmt.Println("1.Enter new room")
+	fmt.Println("2.Enter new customer")
+	fmt.Println("3.Book")
+	fmt.Println("4.Sort room booking by room type")
+	fmt.Println("5.Create bill for customer")
+	fmt.Println("6.Out program")
+	fmt.Print("Your choice? ")
+	fmt.Scan(&n)
+
+	switch n {
+	case 1:
+	case 2:
+		Customers = append(Customers, get_cus_Infomation())
+
+		main()
+	case 3:
+	case 4:
+	case 5:
+	case 6:
+		return
+	default:
+		main()
 	}
 }
