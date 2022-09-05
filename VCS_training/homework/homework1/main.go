@@ -71,7 +71,7 @@ func main() {
 	case 2:
 		Customers = append(Customers, get_cus_Infomation())
 
-		main()
+		break
 	case 3:
 	case 4:
 	case 5:
