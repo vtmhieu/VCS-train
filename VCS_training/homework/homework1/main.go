@@ -81,18 +81,31 @@ func LoadCus(filename string) []customer {
 	return cus
 }
 
-func InsertRoomID(Newroom *room, err error) int {
+func InsertRoomID(Newroom *room, err error, rooms []room) int {
 	fmt.Print("ID: ")
 	Newroom.Id_room, err = strconv.Atoi(nextLine())
 	if err != nil {
 		fmt.Println("The input must be integer")
 		fmt.Println("Please reinsert the room ID ")
-		InsertRoomID(Newroom, err)
+		InsertRoomID(Newroom, err, rooms)
 	}
 	if Newroom.Id_room < 0 {
 		fmt.Println("The input must be positive number")
 		fmt.Println("Please reinsert the room ID ")
-		InsertRoomID(Newroom, err)
+		InsertRoomID(Newroom, err, rooms)
+	}
+	n := 0
+	for _, v := range rooms {
+		if Newroom.Id_room == v.Id_room {
+			n++
+		}
+	}
+	if n > 0 {
+		fmt.Println("The ID has been used. Please reinsert the room ID.")
+		InsertRoomID(Newroom, err, rooms)
+	}
+	if n == 0 {
+		return Newroom.Id_room
 	}
 	return Newroom.Id_room
 }
@@ -154,7 +167,7 @@ func main() {
 
 			fmt.Print("Please enter room infomation:\n")
 			var Newroom room
-			InsertRoomID(&Newroom, err)
+			InsertRoomID(&Newroom, err, rooms)
 
 			fmt.Println("Type of room: ")
 			InsertRoomType(&Newroom, err)
@@ -170,7 +183,6 @@ func main() {
 
 		case 2:
 
-			break
 		case 3:
 		case 4:
 		case 5:

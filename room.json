@@ -2,6 +2,11 @@
  {
   "room_id": 1,
   "room_type": "President",
-  "room_price": 1213
+  "room_price": 30900
+ },
+ {
+  "room_id": 2,
+  "room_type": "Double",
+  "room_price": 1222
  }
 ]
