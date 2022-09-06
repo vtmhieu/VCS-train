@@ -8,5 +8,20 @@
   "room_id": 2,
   "room_type": "Double",
   "room_price": 1222
+ },
+ {
+  "room_id": 12,
+  "room_type": "Double",
+  "room_price": 1312321
+ },
+ {
+  "room_id": 22,
+  "room_type": "President",
+  "room_price": 12232
+ },
+ {
+  "room_id": 33,
+  "room_type": "Double",
+  "room_price": 22
  }
 ]
