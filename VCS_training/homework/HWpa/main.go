@@ -59,6 +59,7 @@ func main() {
 	var err error
 
 	rooms = loadRoom("PHONG.json")
+
 	for {
 		// Print menu
 		fmt.Println("Features:")
@@ -82,6 +83,7 @@ func main() {
 			newRoom.ID = nextLine()
 			fmt.Print("Type: 1. Single 2. Double 3. VIP? ")
 			newRoom.Type, err = strconv.Atoi(nextLine())
+			//Atoi = string to int ; Itoa = int to string
 			if err != nil {
 				fmt.Println("Type must be an integer.\n")
 				break
@@ -102,6 +104,9 @@ func main() {
 
 			fmt.Printf("%10s%10s%10s\n", "ID", "Type", "Price")
 			fmt.Printf("%10s%10d%10d\n", newRoom.ID, newRoom.Type, newRoom.Price)
+
+		case 2:
+
 		case 6:
 			return
 		default:
