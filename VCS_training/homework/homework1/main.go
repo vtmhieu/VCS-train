@@ -10,12 +10,12 @@ import (
 )
 
 type customer struct {
-	name        string `json:"name"`
-	email       string `json:"email"`
-	sdt         int64  `json:"sdt"`
-	code        int64  `json:"code"`
-	type_room   string `json:"type_room"`
-	description string `json:"description"`
+	Name        string `json:"name"`
+	Email       string `json:"email"`
+	Sdt         int64  `json:"sdt"`
+	Code        int64  `json:"code"`
+	Type_room   string `json:"type_room"`
+	Description string `json:"description"`
 }
 
 // type customers struct {
@@ -23,9 +23,9 @@ type customer struct {
 // }1
 
 type room struct {
-	id_room    int    `json:"room_id"`
-	type_room  string `json:"room_type"`
-	price_room int    `json:"room_price"`
+	Id_room    int    `json:"room_id"`
+	Type_room  string `json:"room_type"`
+	Price_room int    `json:"room_price"`
 }
 
 func nextLine() string {
@@ -83,18 +83,18 @@ func LoadCus(filename string) []customer {
 
 func InsertRoomID(Newroom *room, err error) int {
 	fmt.Print("ID: ")
-	Newroom.id_room, err = strconv.Atoi(nextLine())
+	Newroom.Id_room, err = strconv.Atoi(nextLine())
 	if err != nil {
 		fmt.Println("The input must be integer")
 		fmt.Println("Please reinsert the room ID ")
 		InsertRoomID(Newroom, err)
 	}
-	if Newroom.id_room < 0 {
+	if Newroom.Id_room < 0 {
 		fmt.Println("The input must be positive number")
 		fmt.Println("Please reinsert the room ID ")
 		InsertRoomID(Newroom, err)
 	}
-	return Newroom.id_room
+	return Newroom.Id_room
 }
 
 func InsertRoomType(Newroom *room, err error) string {
@@ -104,32 +104,32 @@ func InsertRoomType(Newroom *room, err error) string {
 
 	switch k {
 	case 1:
-		Newroom.type_room = "Single"
+		Newroom.Type_room = "Single"
 
 	case 2:
-		Newroom.type_room = "Double"
+		Newroom.Type_room = "Double"
 
 	case 3:
-		Newroom.type_room = "President"
+		Newroom.Type_room = "President"
 
 	default:
 		fmt.Println("Please enter room type in range 1 to 3")
 		InsertRoomType(Newroom, err)
 	}
-	return Newroom.type_room
+	return Newroom.Type_room
 }
 
 func InsertRoomPrice(Newroom *room, err error) int {
-	Newroom.price_room, err = strconv.Atoi(nextLine())
+	Newroom.Price_room, err = strconv.Atoi(nextLine())
 	if err != nil {
 		fmt.Println("Input must be number")
 		InsertRoomPrice(Newroom, err)
 	}
-	if Newroom.price_room < 0 {
+	if Newroom.Price_room < 0 {
 		fmt.Println("Input must be positive number")
 		InsertRoomPrice(Newroom, err)
 	}
-	return Newroom.price_room
+	return Newroom.Price_room
 }
 func main() {
 
@@ -166,7 +166,7 @@ func main() {
 			rooms = append(rooms, Newroom)
 			SaveRoom("room.json", rooms)
 			fmt.Printf("%10s%10s%10s\n", "ID", "Type", "Price")
-			fmt.Printf("%10d%10s%10d\n", Newroom.id_room, Newroom.type_room, Newroom.price_room)
+			fmt.Printf("%10d%10s%10d\n", Newroom.Id_room, Newroom.Type_room, Newroom.Price_room)
 
 		case 2:
 
