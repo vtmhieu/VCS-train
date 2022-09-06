@@ -1,0 +1,20 @@
+[
+ {
+  "name": "Hieu",
+  "email": "hieu@gmail.comm",
+  "sdt": 10000000,
+  "id": 1
+ },
+ {
+  "name": "Hieu",
+  "email": "hieu@gmail.com",
+  "sdt": 12345678,
+  "id": 0
+ },
+ {
+  "name": "Hi",
+  "email": "Vuton@gmail.com",
+  "sdt": 10002131,
+  "id": 2
+ }
+]
