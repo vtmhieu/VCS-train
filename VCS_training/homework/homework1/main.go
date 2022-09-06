@@ -20,7 +20,7 @@ type customer struct {
 
 // type customers struct {
 // 	customers []customer `json:"customers"`
-// }
+// }1
 
 type room struct {
 	id_room    int    `json:"room_id"`
@@ -33,7 +33,7 @@ func nextLine() string {
 	line, _, _ := bio.ReadLine()
 	return string(line)
 }
-func ReadFile(filename string) []byte {
+func readFile(filename string) []byte {
 	content, err := ioutil.ReadFile(filename)
 	if err != nil {
 		fmt.Println(err)
@@ -47,17 +47,16 @@ func SaveRoom(filename string, rooms []room) {
 		fmt.Println(err)
 	}
 
-	err = ioutil.WriteFile(filename, []byte(data), 0666)
+	err = ioutil.WriteFile(filename, data, 0666)
 	if err != nil {
 		fmt.Println(err)
 	}
-
 }
 
 func LoadRoom(filename string) []room {
 
 	var rooms []room
-	data := ReadFile(filename)
+	data := readFile(filename)
 	_ = json.Unmarshal(data, &rooms)
 	return rooms
 }
@@ -77,7 +76,7 @@ func SaveCus(filename string, customers []customer) {
 func LoadCus(filename string) []customer {
 	var cus []customer
 
-	data := ReadFile(filename)
+	data := readFile(filename)
 	_ = json.Unmarshal(data, &cus)
 	return cus
 }
@@ -119,11 +118,24 @@ func InsertRoomType(Newroom *room, err error) string {
 	}
 	return Newroom.type_room
 }
+
+func InsertRoomPrice(Newroom *room, err error) int {
+	Newroom.price_room, err = strconv.Atoi(nextLine())
+	if err != nil {
+		fmt.Println("Input must be number")
+		InsertRoomPrice(Newroom, err)
+	}
+	if Newroom.price_room < 0 {
+		fmt.Println("Input must be positive number")
+		InsertRoomPrice(Newroom, err)
+	}
+	return Newroom.price_room
+}
 func main() {
 
 	var rooms []room
 	var err error
-	rooms = LoadRoom("Phong.json")
+	rooms = LoadRoom("room.json")
 	for {
 		var n int
 		fmt.Println("----------------------------------------")
@@ -140,28 +152,21 @@ func main() {
 		switch n {
 		case 1:
 
-			fmt.Print("Pleas enter room infomation:\n")
-			var Room room
-			InsertRoomID(&Room, err)
+			fmt.Print("Please enter room infomation:\n")
+			var Newroom room
+			InsertRoomID(&Newroom, err)
 
 			fmt.Println("Type of room: ")
-			InsertRoomType(&Room, err)
+			InsertRoomType(&Newroom, err)
 
 			fmt.Println("Price of room: ")
-			Room.price_room, err = strconv.Atoi(nextLine())
-			if err != nil {
-				fmt.Println("Input must be number")
-				break
-			}
-			if Room.price_room < 0 {
-				fmt.Println("Input must be positive number")
-				break
-			}
+			InsertRoomPrice(&Newroom, err)
 
-			rooms = append(rooms, Room)
-			SaveRoom("Phong.json", rooms)
+			fmt.Println("Successful!")
+			rooms = append(rooms, Newroom)
+			SaveRoom("room.json", rooms)
 			fmt.Printf("%10s%10s%10s\n", "ID", "Type", "Price")
-			fmt.Printf("%10d%10s%10d\n", *&Room.id_room, *&Room.type_room, *&Room.price_room)
+			fmt.Printf("%10d%10s%10d\n", Newroom.id_room, Newroom.type_room, Newroom.price_room)
 
 		case 2:
 
@@ -172,7 +177,7 @@ func main() {
 		case 6:
 			return
 		default:
-
+			break
 		}
 	}
 

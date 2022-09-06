@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 // cards project
-func main() {
+func main2() {
 	//var card string = "Ace of Spades"
 	//card := "Ace of Spades"
 	//only use := when we declare a NEW VARIABLE

@@ -58,7 +58,7 @@ func main() {
 	var rooms []Room
 	var err error
 
-	rooms = loadRoom("PHONG.json")
+	rooms = loadRoom("room.json")
 
 	for {
 		// Print menu
@@ -100,7 +100,7 @@ func main() {
 			}
 			fmt.Println("Successful!")
 			rooms = append(rooms, newRoom)
-			saveRooms("PHONG.json", rooms)
+			saveRooms("room.json", rooms)
 
 			fmt.Printf("%10s%10s%10s\n", "ID", "Type", "Price")
 			fmt.Printf("%10s%10d%10d\n", newRoom.ID, newRoom.Type, newRoom.Price)

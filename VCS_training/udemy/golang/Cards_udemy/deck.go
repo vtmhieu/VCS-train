@@ -90,7 +90,7 @@ func (d deck) shuffle() {
 		d[i], d[newPosition] = d[newPosition], d[i]
 	}
 }
-func main() {
+func main1() {
 	//def new deck of cards
 	cards := newDeck()
 	// //print out all the card in deck
