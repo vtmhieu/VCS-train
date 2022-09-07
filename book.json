@@ -25,5 +25,14 @@
   "room_id": 2,
   "room_type": "Single",
   "room_price": 0
+ },
+ {
+  "cus_name": "Hieu",
+  "cus_id": 1,
+  "cus_email": "vmth@gmail.com",
+  "cus_sdt": 12121231,
+  "room_id": 3,
+  "room_type": "Single",
+  "room_price": 12312
  }
 ]
