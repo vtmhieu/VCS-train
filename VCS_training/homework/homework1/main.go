@@ -278,7 +278,7 @@ func findCustomer(Newbook *book, Cus []customer, err error) (string, int, string
 		fmt.Println("Successful!")
 		customers = append(customers, Newcus)
 		SaveCus("customer.json", customers)
-		customers = LoadCus("custom.json")
+		customers = LoadCus("customer.json")
 		fmt.Println("Please reinsert the customer ID to find the customer")
 		findCustomer(Newbook, Cus, err)
 	}
