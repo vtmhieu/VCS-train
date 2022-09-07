@@ -23,5 +23,10 @@
   "room_id": 33,
   "room_type": "Double",
   "room_price": 22
+ },
+ {
+  "room_id": 4,
+  "room_type": "Double",
+  "room_price": 200000
  }
 ]
