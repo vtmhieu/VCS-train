@@ -26,6 +26,16 @@ type room struct {
 	Price_room int    `json:"room_price"`
 }
 
+type book struct {
+	Cus_name   string `json:"cus_name"`
+	Cus_id     int    `json:"cus_id"`
+	Cus_email  string `json:"cus_email"`
+	Cus_sdt    int    `json:"cus_sdt"`
+	Room_id    int    `json:"room_id"`
+	Room_type  string `json:"room_type"`
+	Room_price int    `json:"room_price"`
+}
+
 func nextLine() string {
 	bio := bufio.NewReader(os.Stdin)
 	line, _, _ := bio.ReadLine()
@@ -77,6 +87,26 @@ func LoadCus(filename string) []customer {
 	data := readFile(filename)
 	_ = json.Unmarshal(data, &cus)
 	return cus
+}
+
+func SaveBook(filename string, books []book) {
+	data, err := json.MarshalIndent(books, "", " ")
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	err = ioutil.WriteFile(filename, []byte(data), 0666)
+	if err != nil {
+		fmt.Println(err)
+	}
+}
+
+func LoadBook(filename string) []book {
+	var books []book
+
+	data := readFile(filename)
+	_ = json.Unmarshal(data, &books)
+	return books
 }
 
 func InsertRoomID(Newroom *room, err error, rooms []room) int {
@@ -209,12 +239,131 @@ func InsertCusID(Newcustomer *customer, err error, customers []customer) int {
 	return Newcustomer.ID
 }
 
+// book:
+// 1.find the customer by using id , if not found -> insert new customer
+// 2. find the room by type and book.
+func findCustomer(Newbook book, Cus []customer, err error) (string, int, string, int) {
+	fmt.Println("Please enter customer ID:")
+	Newbook.Cus_id, err = strconv.Atoi(nextLine())
+	if err != nil {
+		fmt.Println("Please enter number")
+		fmt.Println("Please reinsert the customer ID")
+		findCustomer(Newbook, Cus, err)
+	}
+	if Newbook.Cus_id < 0 {
+		fmt.Println("The input must be positive number")
+		fmt.Println("Please reinsert the customer ID ")
+		findCustomer(Newbook, Cus, err)
+	}
+	n := 0
+	var k customer
+	for _, v := range Cus {
+		if Newbook.Cus_id == v.ID {
+			k = v
+			n++
+		}
+	}
+	if n == 0 {
+		fmt.Println("Please insert a new customer")
+		var customers []customer
+		var Newcus customer
+		InsertCusName(&Newcus)
+
+		InsertCusEmail(&Newcus)
+
+		InsertCusPhone(&Newcus, err)
+
+		InsertCusID(&Newcus, err, customers)
+
+		fmt.Println("Successful!")
+		customers = append(customers, Newcus)
+		SaveCus("customer.json", customers)
+
+		fmt.Println("Please reinsert the customer ID to find the customer")
+		findCustomer(Newbook, Cus, err)
+	}
+	if n == 1 {
+		Newbook.Cus_name = k.Name
+		Newbook.Cus_id = k.ID
+		Newbook.Cus_email = k.Email
+		Newbook.Cus_sdt = k.Sdt
+
+	}
+
+	return Newbook.Cus_name, Newbook.Cus_id, Newbook.Cus_email, Newbook.Cus_sdt
+}
+
+func FindRoom(Newbook book, rooms []room, err error) (int, string, int) {
+
+	fmt.Println("Please choose room type.")
+	fmt.Print("1. Single    2. Double    3.President?")
+	var k int
+	fmt.Scanln(&k)
+	switch k {
+	case 1:
+		Newbook.Room_type = "Single"
+
+	case 2:
+		Newbook.Room_type = "Double"
+
+	case 3:
+		Newbook.Room_type = "President"
+
+	default:
+		fmt.Println("Please enter room type in range 1 to 3")
+		FindRoom(Newbook, rooms, err)
+	}
+	var r []room
+	for _, v := range rooms {
+		if v.Type_room == Newbook.Room_type {
+			r = append(r, v)
+		}
+	}
+	fmt.Println("This is the list of rooms you want to book")
+	for _, v := range r {
+		fmt.Println("Room ID:%d    Type: %s   Price: %d", v.Id_room, v.Type_room, v.Price_room)
+	}
+
+	fmt.Println("Please enter the room ID that you want to book: ")
+	Newbook.Room_id, err = strconv.Atoi(nextLine())
+	if err != nil {
+		fmt.Println("Please enter number")
+		fmt.Println("Please reinsert the customer ID")
+		FindRoom(Newbook, rooms, err)
+	}
+	if Newbook.Cus_id < 0 {
+		fmt.Println("The input must be positive number")
+		fmt.Println("Please reinsert the customer ID ")
+		FindRoom(Newbook, rooms, err)
+	}
+	n := 0
+	var h room
+	for _, v := range r {
+		if Newbook.Room_id == v.Id_room {
+			h = v
+			n++
+		}
+	}
+	if n == 0 {
+		fmt.Println("Please reinsert the room ID you want.")
+
+	}
+	if n == 1 {
+		Newbook.Room_id = h.Id_room
+		Newbook.Room_type = h.Type_room
+		Newbook.Room_price = h.Price_room
+	}
+
+	return Newbook.Room_id, Newbook.Room_type, Newbook.Room_price
+}
 func main() {
 	var customers []customer
 	var rooms []room
+	var books []book
 	var err error
 	customers = LoadCus("customer.json")
 	rooms = LoadRoom("room.json")
+	books = LoadBook("book.json")
 	for {
 		var n int
 		fmt.Println("----------------------------------------")
@@ -264,7 +413,11 @@ func main() {
 			SaveCus("customer.json", customers)
 
 		case 3:
+			var Newbook book
 
+			fmt.Println("Successful!")
+			books = append(books, Newbook)
+			SaveBook("book.json", books)
 		case 4:
 		case 5:
 		case 6:
