@@ -242,7 +242,7 @@ func InsertCusID(Newcustomer *customer, err error, customers []customer) int {
 // book:
 // 1.find the customer by using id , if not found -> insert new customer
 // 2. find the room by type and book.
-func findCustomer(Newbook book, Cus []customer, err error) (string, int, string, int) {
+func findCustomer(Newbook *book, Cus []customer, err error) (string, int, string, int) {
 	fmt.Println("Please enter customer ID:")
 	Newbook.Cus_id, err = strconv.Atoi(nextLine())
 	if err != nil {
@@ -278,7 +278,7 @@ func findCustomer(Newbook book, Cus []customer, err error) (string, int, string,
 		fmt.Println("Successful!")
 		customers = append(customers, Newcus)
 		SaveCus("customer.json", customers)
-
+		customers = LoadCus("custom.json")
 		fmt.Println("Please reinsert the customer ID to find the customer")
 		findCustomer(Newbook, Cus, err)
 	}
@@ -293,7 +293,7 @@ func findCustomer(Newbook book, Cus []customer, err error) (string, int, string,
 	return Newbook.Cus_name, Newbook.Cus_id, Newbook.Cus_email, Newbook.Cus_sdt
 }
 
-func FindRoom(Newbook book, rooms []room, err error) (int, string, int) {
+func findRoom(Newbook *book, rooms []room, err error) (int, string, int) {
 
 	fmt.Println("Please choose room type.")
 	fmt.Print("1. Single    2. Double    3.President?")
@@ -311,7 +311,7 @@ func FindRoom(Newbook book, rooms []room, err error) (int, string, int) {
 
 	default:
 		fmt.Println("Please enter room type in range 1 to 3")
-		FindRoom(Newbook, rooms, err)
+		findRoom(Newbook, rooms, err)
 	}
 	var r []room
 	for _, v := range rooms {
@@ -321,20 +321,20 @@ func FindRoom(Newbook book, rooms []room, err error) (int, string, int) {
 	}
 	fmt.Println("This is the list of rooms you want to book")
 	for _, v := range r {
-		fmt.Println("Room ID:%d    Type: %s   Price: %d", v.Id_room, v.Type_room, v.Price_room)
+		fmt.Printf("Room ID:%d    Type: %s   Price: %d \n", v.Id_room, v.Type_room, v.Price_room)
 	}
 
-	fmt.Println("Please enter the room ID that you want to book: ")
+	fmt.Println("\nPlease enter the room ID that you want to book: ")
 	Newbook.Room_id, err = strconv.Atoi(nextLine())
 	if err != nil {
 		fmt.Println("Please enter number")
 		fmt.Println("Please reinsert the customer ID")
-		FindRoom(Newbook, rooms, err)
+		findRoom(Newbook, rooms, err)
 	}
 	if Newbook.Cus_id < 0 {
 		fmt.Println("The input must be positive number")
 		fmt.Println("Please reinsert the customer ID ")
-		FindRoom(Newbook, rooms, err)
+		findRoom(Newbook, rooms, err)
 	}
 	n := 0
 	var h room
@@ -361,10 +361,11 @@ func main() {
 	var rooms []room
 	var books []book
 	var err error
-	customers = LoadCus("customer.json")
-	rooms = LoadRoom("room.json")
-	books = LoadBook("book.json")
+
 	for {
+		customers = LoadCus("customer.json")
+		rooms = LoadRoom("room.json")
+		books = LoadBook("book.json")
 		var n int
 		fmt.Println("----------------------------------------")
 		fmt.Println("MENU")
@@ -414,6 +415,8 @@ func main() {
 
 		case 3:
 			var Newbook book
+			findCustomer(&Newbook, customers, err)
+			findRoom(&Newbook, rooms, err)
 
 			fmt.Println("Successful!")
 			books = append(books, Newbook)

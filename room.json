@@ -28,5 +28,25 @@
   "room_id": 4,
   "room_type": "Double",
   "room_price": 200000
+ },
+ {
+  "room_id": 3,
+  "room_type": "Single",
+  "room_price": 12312
+ },
+ {
+  "room_id": 5,
+  "room_type": "Single",
+  "room_price": 123234314132
+ },
+ {
+  "room_id": 6,
+  "room_type": "President",
+  "room_price": 123131
+ },
+ {
+  "room_id": 322,
+  "room_type": "Double",
+  "room_price": 1442
  }
 ]

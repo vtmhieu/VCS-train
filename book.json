@@ -1,0 +1,29 @@
+[
+ {
+  "cus_name": "Hieu",
+  "cus_id": 1,
+  "cus_email": "hieu@gmail.comm",
+  "cus_sdt": 10000000,
+  "room_id": 1,
+  "room_type": "Double",
+  "room_price": 0
+ },
+ {
+  "cus_name": "Hi",
+  "cus_id": 2,
+  "cus_email": "Vuton@gmail.com",
+  "cus_sdt": 10002131,
+  "room_id": 2,
+  "room_type": "Double",
+  "room_price": 1222
+ },
+ {
+  "cus_name": "Hieu",
+  "cus_id": 1,
+  "cus_email": "hieu@gmail.comm",
+  "cus_sdt": 10000000,
+  "room_id": 2,
+  "room_type": "Single",
+  "room_price": 0
+ }
+]
