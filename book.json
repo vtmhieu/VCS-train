@@ -34,5 +34,14 @@
   "room_id": 3,
   "room_type": "Single",
   "room_price": 12312
+ },
+ {
+  "cus_name": "Chien",
+  "cus_id": 3,
+  "cus_email": "chien@gmail.com",
+  "cus_sdt": 21231231,
+  "room_id": 3,
+  "room_type": "Single",
+  "room_price": 12312
  }
 ]

@@ -265,7 +265,7 @@ func findCustomer(Newbook *book, Cus []customer, err error) (string, int, string
 	}
 	if n == 0 {
 		fmt.Println("Please insert a new customer")
-		var customers []customer
+
 		var Newcus customer
 		InsertCusName(&Newcus)
 
@@ -273,12 +273,12 @@ func findCustomer(Newbook *book, Cus []customer, err error) (string, int, string
 
 		InsertCusPhone(&Newcus, err)
 
-		InsertCusID(&Newcus, err, customers)
+		InsertCusID(&Newcus, err, Cus)
 
 		fmt.Println("Successful!")
-		customers = append(customers, Newcus)
-		SaveCus("customer.json", customers)
-		customers = LoadCus("customer.json")
+		Cus = append(Cus, Newcus)
+		SaveCus("customer.json", Cus)
+		Cus = LoadCus("customer.json")
 		fmt.Println("Please reinsert the customer ID to find the customer")
 		findCustomer(Newbook, Cus, err)
 	}
@@ -421,8 +421,10 @@ func main() {
 			fmt.Println("Successful!")
 			books = append(books, Newbook)
 			SaveBook("book.json", books)
+
 		case 4:
 		case 5:
+
 		case 6:
 			return
 		default:
