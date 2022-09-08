@@ -388,6 +388,21 @@ func sortRoom(rooms []room) {
 	}
 
 }
+
+func createBill(books []book) {
+	total := 0
+	var k int
+
+	fmt.Print("Please insert the customer id: ")
+	fmt.Scanln(&k)
+	for _, v := range books {
+		if v.Cus_id == k {
+			total += v.Room_price
+		}
+	}
+
+	fmt.Printf("Total price: %d\n", total)
+}
 func main() {
 	var customers []customer
 	var rooms []room
@@ -458,7 +473,7 @@ func main() {
 			sortRoom(rooms)
 
 		case 5:
-
+			createBill(books)
 		case 6:
 			return
 		default:
