@@ -356,6 +356,38 @@ func findRoom(Newbook *book, rooms []room, err error) (int, string, int) {
 
 	return Newbook.Room_id, Newbook.Room_type, Newbook.Room_price
 }
+
+func sortRoom(rooms []room) {
+	var r []room
+	var t string
+	fmt.Println("Please choose room type.")
+	fmt.Print("1. Single    2. Double    3.President?  ")
+	var k int
+	fmt.Scanln(&k)
+	switch k {
+	case 1:
+		t = "Single"
+
+	case 2:
+		t = "Double"
+
+	case 3:
+		t = "President"
+	default:
+		fmt.Println("The input must be between 1 and 3.")
+		sortRoom(rooms)
+	}
+	for _, v := range rooms {
+		if v.Type_room == t {
+			r = append(r, v)
+		}
+	}
+	fmt.Println("This is the list of rooms you want to sort")
+	for _, v := range r {
+		fmt.Printf("Room ID:%d    Type: %s   Price: %d \n", v.Id_room, v.Type_room, v.Price_room)
+	}
+
+}
 func main() {
 	var customers []customer
 	var rooms []room
@@ -423,6 +455,8 @@ func main() {
 			SaveBook("book.json", books)
 
 		case 4:
+			sortRoom(rooms)
+
 		case 5:
 
 		case 6:
