@@ -477,6 +477,7 @@ func main() {
 		case 6:
 			return
 		default:
+			fmt.Println("Please enter the valid number.")
 			break
 		}
 	}
