@@ -30,7 +30,7 @@ func (e *Html) string(indent int) string {
 	if len(e.text) > 0 {
 		sb.WriteString(strings.Repeat(" ", indentSize*(indent+1)))
 		sb.WriteString(e.text)
-		sb.WriteString("/n")
+		sb.WriteString("\n")
 	}
 
 	for _, el := range e.elements {
@@ -49,6 +49,15 @@ func NewHtmlBuilder(rootName string) *HtmlBuilder {
 
 	return &HtmlBuilder{rootName,
 		Html{rootName, "", []Html{}}}
+}
+
+func (b *HtmlBuilder) String() string {
+	return b.root.String()
+}
+
+func (b *HtmlBuilder) Addchild(childName, childText string) {
+	e := Html{childName, childText, []Html{}}
+	b.root.elements = append(b.root.elements, e)
 }
 func main() {
 	//change a text into a paragraph
@@ -71,4 +80,9 @@ func main() {
 	}
 	sb.WriteString("</ul>")
 	fmt.Println(sb.String())
+
+	b := NewHtmlBuilder("ul")
+	b.Addchild("li", "Hello")
+	b.Addchild("li", "world")
+	fmt.Println(b.String())
 }
