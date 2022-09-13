@@ -1,0 +1,39 @@
+// COMMAND SAVE OR RETRIEVE IN REDIS
+
+SET message 'Hi there!'  =  save data message from application to redis db -> return 'OK' to application
+
+GET message     =  Get the message from redis database -> return 'Hi there!' to application
+
+//SET 
+
+SET m 'red'
+SET m 'green' GET -> 'red'
+
+//
+SET m 'red' XX -> null since the XX can only be called when the key is exist
+
+SET m 'red' NX -> NX can only be called when the key is NOT exist 
+
+SET m 'red' EX 2 -> set the key with value and delete it after n seconds
+
+SET m 'red' EX 3 = SETEX m 3 red 
+
+
+MSET m n g 'red' -> multi set 
+
+
+MGET color model -> multi get
+
+
+//
+
+DEL color -> delete key color
+
+
+GETRANGE color 0 3 -> return a sequence of characters from an existing string
+-> the first and the fourth character of the value of key color
+
+SETRANGE color 2 blue -> update a portion of an existing string 
+-> change the string at color and start replacing characters at index 2 with string "blue"
+ 
+
