@@ -2,14 +2,16 @@ package main
 
 import (
 	"log"
-	"test3/go/pkg/mod/github.com/xuri/excelize@v1.4.1"
+
+	"github.com/xuri/excelize/v2"
 )
 
-func connect() {
-	f, err := excelize.OpenFile("simple.xlsx")
+func connect(filename string) {
+	f, err := excelize.OpenFile(filename)
 
 	if err != nil {
 		log.Fatal(err)
+		return
 	}
 }
 
