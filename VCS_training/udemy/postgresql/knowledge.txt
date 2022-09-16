@@ -452,3 +452,38 @@ SELECT SPLIT_PART(date_of_birth::TEXT, '_',1) FROM directors;
 
 -> 1965-04-01 -> 1965
 
+
+
+
+//JSON and JSONB datatype 
+
+1st create table 
+
+CREATE TABLE books(
+    id serial, 
+    bookinfo jsonb 
+)
+
+2nd insert data into books
+
+INSERT INTO books(bookinfo) 
+VALUES ('{"title":"John", "author":["Pan","Minh","Chi"],"publisher":"Nha xuat ban Kim Dong","date":"2017"}');
+
+3rd select data from books 
+
+SELECT bookinfo->'author' FROM books; // -> return ["Pan","Minh","Chi"]
+
+// CREATE JSON FORM TABLE
+
+SELECT jsonb_build_object(
+    'id', b.id,
+    'title', b.title,
+    'author',b.author,
+    'publisher',b.publisher,
+    'date',b.date
+)
+FROM books AS b; //denote table books as b 
+
+-> JSON format {"id":"1","title":"John", "author":["Pan","Minh","Chi"],"publisher":"Nha xuat ban Kim Dong","date":"2017"}
+
+// how to add array of keywords
