@@ -48,5 +48,10 @@
   "room_id": 322,
   "room_type": "Double",
   "room_price": 1442
+ },
+ {
+  "room_id": 142,
+  "room_type": "Double",
+  "room_price": 13
  }
 ]
