@@ -47,7 +47,7 @@ func init() {
 	_ = json.Unmarshal([]byte(file), &recipes)
 }
 
-//POST /recipes
+// POST /recipes
 func NewRecipeHandler(c *gin.Context) {
 	var recipe Recipe
 	if err := c.ShouldBindJSON(&recipe); err != nil {
@@ -68,7 +68,7 @@ func ListRecipesHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, recipes)
 }
 
-//PUT /recipes/{id}
+// PUT /recipes/{id}
 func UpdateRecipesHandler(c *gin.Context) {
 	id := c.Param("id")
 	var recipe Recipe
@@ -141,5 +141,6 @@ func main() {
 	router.GET("/recipes", ListRecipesHandler)
 	router.PUT("/recipes/:id", UpdateRecipesHandler)
 	router.GET("/recipes/search", SearchRecipesHandler)
+	router.DELETE("/recipes/:id", DeleteRecipeHandler)
 	router.Run()
 }
