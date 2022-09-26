@@ -9,13 +9,13 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/gorilla/mux"
+	"github.com/gin-gonic/gin"
 )
 
 type Task struct {
 	Name_task        string    `json:"name"`
 	Description_task string    `json:"description"`
-	Sprint_task      int       `json:"sprint"`
+	Sprint_task      string    `json:"sprint"`
 	Assignee_task    string    `json:"assignee"`
 	Story_point      int       `json:"story_point"`
 	Status           string    `json:"status"`
@@ -76,63 +76,131 @@ func printMessage(message string) {
 	fmt.Println(message)
 	fmt.Println("")
 }
-func getTasks(w http.ResponseWriter, r *http.Request) {
-	db := setupDB()
 
-	printMessage("Getting all tasks...")
+// func getTasks(w http.ResponseWriter, r *http.Request) {
+// 	db := setupDB()
 
-	rows, err := db.Query("SELECT * FROM tasks")
+// 	printMessage("Getting all tasks...")
 
-	checkErr(err)
+// 	rows, err := db.Query("SELECT * FROM tasks")
 
-	var tasks []Task
+// 	checkErr(err)
 
-	for rows.Next() {
-		var Name string
-		var Description string
-		var Sprint int
-		var Assignee string
-		var Story_point int
-		var Status string
-		var Created time.Time
-		var Last time.Time
+// 	var tasks []Task
 
-		err = rows.Scan(&Name, &Description, &Sprint, &Assignee, &Story_point, &Status, &Created, &Last)
+// 	for rows.Next() {
+// 		var Name string
+// 		var Description string
+// 		var Sprint int
+// 		var Assignee string
+// 		var Story_point int
+// 		var Status string
+// 		var Created time.Time
+// 		var Last time.Time
 
-		checkErr(err)
-		tasks = append(tasks, Task{Name_task: Name, Description_task: Description, Sprint_task: Sprint, Assignee_task: Assignee,
-			Status: Status, Created_at: Created, Last_update_at: Last})
+// 		err = rows.Scan(&Name, &Description, &Sprint, &Assignee, &Story_point, &Status, &Created, &Last)
 
+// 		checkErr(err)
+// 		tasks = append(tasks, Task{Name_task: Name, Description_task: Description, Sprint_task: Sprint, Assignee_task: Assignee,
+// 			Status: Status, Created_at: Created, Last_update_at: Last})
+
+// 	}
+// 	var response = JsonResponse{Type: "Success", Data: tasks}
+// 	json.NewEncoder(w).Encode(response)
+// }
+
+// GET ALL THE TASKS = GET /tasks
+func getTasks(c *gin.Context) {
+	c.JSON(http.StatusOK, tasks)
+}
+
+// ADD TASK = POST /tasks
+func addTask(c *gin.Context) {
+	var task Task
+	err := c.BindJSON(&task)
+	if err != nil {
+		log.Println(err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
-	var response = JsonResponse{Type: "Success", Data: tasks}
-	json.NewEncoder(w).Encode(response)
-}
-
-func addTask(w http.ResponseWriter, r *http.Request) {
+	task.Created_at = time.Now()
+	task.Last_update_at = time.Now()
+	c.JSON(http.StatusOK, tasks)
 
 }
 
-func updateTask(w http.ResponseWriter, r *http.Request) {
+// PUT /tasks/{id}
+func updateTask(c *gin.Context) {
+	Sprint_task := c.Param("sprint")
+	var task Task
+	if err := c.ShouldBindJSON(&task); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error()})
+		return
+	}
 
+	index := -1
+	for i := 0; i < len(tasks); i++ {
+		if tasks[i].Sprint_task == Sprint_task {
+			index = i
+		}
+	}
+	if index == -1 {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Task not found"})
+		return
+	}
+
+	tasks[index] = task
+	c.JSON(http.StatusOK, tasks)
 }
 
-func deleteTask(w http.ResponseWriter, r *http.Request) {
+// DELETE /tasks/{sprint}
+func deleteTask(c *gin.Context) {
+	Sprint_task := c.Param("sprint")
+	index := -1
+	for i := 0; i < len(tasks); i++ {
+		if tasks[i].Sprint_task == Sprint_task {
+			index = i
+		}
+	}
+	if index == -1 {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Task not found"})
+		return
+	}
 
+	tasks = append(tasks[:index], tasks[index+1:]...)
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Task deleted successfully"})
 }
 
-func getTask(w http.ResponseWriter, r *http.Request) {
+// GET /tasks/search
+func getTask(c *gin.Context) {
+	status := c.Query("status")
+	ListofTasks := make([]Task, 0)
+
+	for i := 0; i < len(tasks); i++ {
+		found := false
+		for _, s := range tasks[i].Status {
+			if string(s) == status {
+				found = true
+			}
+		}
+		if found {
+			ListofTasks = append(ListofTasks, tasks[i])
+		}
+	}
+	c.JSON(http.StatusOK, ListofTasks)
 
 }
 func main() {
-	router := mux.NewRouter()
-
-	router.HandleFunc("/tasks", getTasks).Methods("GET")
-	router.HandleFunc("/tasks", addTask).Methods("POST")
-	router.HandleFunc("/tasks/{id}", deleteTask).Methods("DELETE")
-	router.HandleFunc("/tasks/{id}", getTask).Methods("GET")
-	router.HandleFunc("/tasks/{id}", updateTask).Methods("PUT")
-
-	fmt.Println("Server at 8080")
-	log.Fatal(http.ListenAndServe(":8000", router))
+	router := gin.Default()
+	router.POST("/tasks", addTask)
+	router.PUT("/tasks/:sprint", updateTask)
+	router.GET("/tasks", getTasks)
+	router.DELETE("/tasks/:sprint", deleteTask)
+	router.GET("/tasks/search", getTask)
+	router.Run()
 
 }
